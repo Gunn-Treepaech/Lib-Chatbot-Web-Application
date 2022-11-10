@@ -24,7 +24,7 @@
     </tbody>
 </table>
   <script>
-    fetch('src/questionInformation.json')
+    fetch('questionInformation.json')
     .then(response => response.json())
     .then(data => appendData(data))
     //.catch(err => { console.log('error: ' + err)})
@@ -53,9 +53,9 @@
         }
       }
     }
-      //console.log(question);
-      //console.log(quantity);
-      //console.log(dataArry);
+      console.log(question);
+      console.log(quantity);
+      console.log(dataArry);
     $('th').on('click', function(){
       var column = $(this).data('column')
       var order = $(this).data('order')

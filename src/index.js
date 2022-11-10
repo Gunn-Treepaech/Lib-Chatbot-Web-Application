@@ -128,7 +128,7 @@ async function addToSheet(request){
   }
 }
 
-async function createDataFile(){
+function createDataFile(){
   const client = new google.auth.JWT(
     keys.client_email,
     null,
