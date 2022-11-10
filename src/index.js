@@ -34,17 +34,7 @@ webApp.get("/", (req, res) => {
 });
 
 webApp.post("/webhook", (req, res) => {
-  let msg = req.body.queryResult.queryText;
-  if (msg == 'คำถามที่พบบ่อย'){
-    //console.log(req.body);
-    const agent = new WebhookClient({request:req, response:res});
-    customPayload(agent);
-    let intentMap = new Map();
-    intentMap.set("คำถามที่พบบ่อย", customPayload);
-    agent.handleRequest(intentMap);
-  } else {
-    addToSheet(req);
-  }
+  addToSheet(req);
 });
 
 // Start the server
@@ -130,13 +120,4 @@ async function addToSheet(request){
     //console.log(resSheet);
 // ---------------------------------------------------------------------------
   }
-}
-
-function customPayload(agent){
-  let payloadJson =  {
-    type: "sticker",
-    pkgId: "11538",
-    stkId: "51626513"
-  };
-  agent.add( new Payload('LINE', payloadJson, {sendAsMessage:true}));
 }
