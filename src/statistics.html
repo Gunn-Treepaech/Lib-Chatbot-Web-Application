@@ -24,7 +24,7 @@
     </tbody>
 </table>
   <script>
-    fetch('questionInformation.json')
+    fetch('/src/questionInformation.json')
     .then(response => response.json())
     .then(data => appendData(data))
     //.catch(err => { console.log('error: ' + err)})
@@ -44,7 +44,7 @@
       }
       var table = document.getElementById('myTable')
         for (var i = 0; i < data.length; i++){
-          for (var f = 0; f < data[i].length; f++){
+          for (var f = 0; f < 1; f++){
             var row = `<tr>
                     <td>${data[i][0]}</td>
                     <td>${data[i][1]}</td>
@@ -53,9 +53,9 @@
         }
       }
     }
-      console.log(question);
-      console.log(quantity);
-      console.log(dataArry);
+      // console.log(question);
+      // console.log(quantity);
+      // console.log(dataArry);
     $('th').on('click', function(){
       var column = $(this).data('column')
       var order = $(this).data('order')
@@ -83,7 +83,7 @@
       var table = document.getElementById('myTable')
       table.innerHTML = ''
       for (var i = 0; i < data.length; i++){
-          for (var f = 0; f < data[i].length; f++){
+          for (var f = 0; f < 1; f++){
             var row = `<tr>
                     <td>${data[i][0]}</td>
                     <td>${data[i][1]}</td>
