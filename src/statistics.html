@@ -24,7 +24,7 @@
     </tbody>
 </table>
   <script>
-    fetch('questionInformation.json')
+    fetch('src/questionInformation.json')
     .then(response => response.json())
     .then(data => appendData(data))
     //.catch(err => { console.log('error: ' + err)})

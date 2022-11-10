@@ -34,6 +34,7 @@ webApp.get("/", (req, res) => {
 });
 
 webApp.get("/statistics", (req, res) => {
+  createDataFile();
   res.sendFile('src/statistics.html', { root: '.' })
 });
 
