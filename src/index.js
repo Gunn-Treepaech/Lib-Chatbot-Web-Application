@@ -3,6 +3,7 @@
 const express = require("express");
 const {google} = require('googleapis');
 const keys = require('./keys.json');
+const fs = require('fs');
 
 require("dotenv").config();
 //--------------------------------------------------------------------------
@@ -32,8 +33,13 @@ webApp.get("/", (req, res) => {
   res.send(`Welcome To Lib-ChatBot!!!`);
 });
 
+webApp.get("/statistics", (req, res) => {
+  res.sendFile('src/statistics.html', { root: '.' })
+});
+
 webApp.post("/webhook", (req, res) => {
   addToSheet(req);
+  createDataFile();
 });
 
 // Start the server
@@ -118,5 +124,38 @@ async function addToSheet(request){
     let resSheet = await gsapi.spreadsheets.values.update(updateOptions);
     //console.log(resSheet);
 // ---------------------------------------------------------------------------
+  }
+}
+
+async function createDataFile(){
+  const client = new google.auth.JWT(
+    keys.client_email,
+    null,
+    keys.private_key,
+    ['https://www.googleapis.com/auth/spreadsheets']
+  );
+  
+client.authorize(function(err,tokens){
+  if(err){
+      console.log(err);
+      return;
+  } else {
+      console.log('Successfully connected to Sheet For Create Data File!');
+      gsrun(client);
+    }
+  });
+  
+async function gsrun(cl){
+  const gsapi = google.sheets({version:'v4', auth: cl});
+  const optSheet1  = {
+    spreadsheetId:'1FMG9gwqwcboqjGctMQ1tQBc5xt6cyL7X5hK2O6Tg70k',
+    range:'Sheet1!A2:B122'
+  }
+  let sheetData1 = await gsapi.spreadsheets.values.get(optSheet1);
+  let sheet1DataArray= sheetData1.data.values;
+  //console.log(sheet1DataArray)
+  fs.writeFile('src/questionInformation.json' ,JSON.stringify(sheet1DataArray),function(err) {
+        if(err) throw err;
+  });
   }
 }
