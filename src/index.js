@@ -3,7 +3,6 @@
 const express = require("express");
 const {google} = require('googleapis');
 const keys = require('./keys.json');
-const {WebhookClient, Payload} = require("dialogflow-fulfillment");
 
 require("dotenv").config();
 //--------------------------------------------------------------------------
