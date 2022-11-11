@@ -4,6 +4,7 @@ const express = require("express");
 const {google} = require('googleapis');
 const keys = require('./keys.json');
 const fs = require('fs');
+const path = require('path');
 
 require("dotenv").config();
 //--------------------------------------------------------------------------
@@ -35,7 +36,8 @@ webApp.get("/", (req, res) => {
 
 webApp.get("/statistics", (req, res) => {
   createDataFile();
-  res.sendFile('src/statistics.html', { root: '.' })
+  res.sendFile(path.join(__dirname, '/statistics.html'));
+  res.sendFile(path.join(__dirname, '/QIF.json'));
 });
 
 webApp.post("/webhook", (req, res) => {
@@ -155,7 +157,7 @@ async function gsrun(cl){
   let sheetData1 = await gsapi.spreadsheets.values.get(optSheet1);
   let sheet1DataArray= sheetData1.data.values;
   //console.log(sheet1DataArray)
-  fs.writeFile('src/questionInformation.json' ,JSON.stringify(sheet1DataArray),function(err) {
+  fs.writeFile('src/QIF.json' ,JSON.stringify(sheet1DataArray),function(err) {
         if(err) throw err;
   });
   }
