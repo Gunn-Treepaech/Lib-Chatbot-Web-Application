@@ -37,7 +37,6 @@ webApp.get("/", (req, res) => {
 webApp.get("/statistics", (req, res) => {
   createDataFile();
   res.sendFile(path.join(__dirname, '/statistics.html'));
-  res.sendFile(path.join(__dirname, '/QIF.json'));
 });
 
 webApp.post("/webhook", (req, res) => {
