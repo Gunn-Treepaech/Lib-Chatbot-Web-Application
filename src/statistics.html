@@ -24,10 +24,17 @@
     </tbody>
 </table>
   <script>
-    fetch('https://git.heroku.com/libchatbot-coe30.git/src/QIF.json')
-    .then(response => response.json())
-    .then(data => appendData(data))
-    //.catch(err => { console.log('error: ' + err)})
+    // fetch('https://libchatbot-coe30.herokuapp.com/QIF')
+    // .then(response => response.json())
+    // .then(data => appendData(data))
+    fetch("https://libchatbot-coe30.herokuapp.com/QIF")
+    .then(res => res.json())
+    .then((out) => {
+      console.log('Checkout this JSON! ', out);
+      appendData(out)
+    })
+    .catch(err => { throw err });
+
     let question = [];
     let quantity = [];
     let dataArry = []
