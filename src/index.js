@@ -6,6 +6,7 @@ const keys = require('./keys.json');
 const jsonData = require('./QIF.json');
 const fs = require('fs');
 const path = require('path');
+const axios =require('axios');
 
 require("dotenv").config();
 //--------------------------------------------------------------------------
@@ -40,16 +41,14 @@ webApp.get("/QIF", (req, res) => {
 });
 
 webApp.post("/QIF", (req, res) => {
-  fs.readFile("src/QIF.json","utf8", function(err, data){
-    let parsedData = JSON.parse(data);
-    let parsedData1 = parsedData[1];
-    parsedData1[1] = 10000;
-    res.set('Content-Type', 'application/json')
-    res.end(JSON.stringify(parsedData));
-    fs.writeFile('src/QIF.json', JSON.stringify(parsedData),function(err){
-     if(err) throw err;
-    })
- })
+  axios.post("https://libchatbot-coe30.herokuapp.com/QIF").then(resp => {
+        let results = resp.data;
+        console.log(results);
+        let parsedData1 = results[1];
+        parsedData1[1] = '10000';
+        res.set('Content-Type', 'application/json')
+        res.end(JSON.stringify(results));
+    });
 });
 
 webApp.get("/statistics", (req, res) => {
