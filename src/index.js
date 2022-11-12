@@ -39,6 +39,19 @@ webApp.get("/QIF", (req, res) => {
   res.json(jsonData);
 });
 
+webApp.post("/QIF", (req, res) => {
+  fs.readFile("src/QIF.json","utf8", function(err, data){
+    let parsedData = JSON.parse(data);
+    let parsedData1 = parsedData[1];
+    parsedData1[1] = 10000;
+    res.set('Content-Type', 'application/json')
+    res.end(JSON.stringify(parsedData));
+    fs.writeFile('src/QIF.json', JSON.stringify(parsedData),function(err){
+     if(err) throw err;
+    })
+ })
+});
+
 webApp.get("/statistics", (req, res) => {
   createDataFile();
   res.sendFile(path.join(__dirname, '/statistics.html'));
