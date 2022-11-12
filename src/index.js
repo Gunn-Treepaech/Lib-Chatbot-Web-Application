@@ -40,8 +40,12 @@ webApp.get("/QIF", (req, res) => {
   res.json(jsonData);
 });
 
+webApp.post("/QIFpost", (req, res) => {
+  res.json(jsonData);
+});
+
 webApp.post("/QIF", (req, res) => {
-  axios.post("https://libchatbot-coe30.herokuapp.com/QIF").then(resp => {
+  axios.post("https://libchatbot-coe30.herokuapp.com/QIFpost").then(resp => {
         let results = resp.data;
         console.log(results);
         let parsedData1 = results[1];
