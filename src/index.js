@@ -3,6 +3,7 @@
 const express = require("express");
 const {google} = require('googleapis');
 const keys = require('./keys.json');
+const jsonData = require('./QIF.json');
 const fs = require('fs');
 const path = require('path');
 
@@ -32,6 +33,10 @@ const PORT = process.env.PORT;
 // Home route
 webApp.get("/", (req, res) => {
   res.send(`Welcome To Lib-ChatBot!!!`);
+});
+
+webApp.get("/QIF", (req, res) => {
+  res.json(jsonData);
 });
 
 webApp.get("/statistics", (req, res) => {
