@@ -3,10 +3,7 @@
 const express = require("express");
 const {google} = require('googleapis');
 const keys = require('./keys.json');
-const jsonData = require('./QIF.json');
-const fs = require('fs');
-const path = require('path');
-const axios =require('axios');
+const path = require('path');;
 
 require("dotenv").config();
 //--------------------------------------------------------------------------
@@ -37,26 +34,36 @@ webApp.get("/", (req, res) => {
 });
 
 webApp.get("/QIF", (req, res) => {
-  res.json(jsonData);
-});
-
-webApp.post("/QIFpost", (req, res) => {
-  res.json(jsonData);
-});
-
-webApp.post("/QIF", (req, res) => {
-  axios.post("https://libchatbot-coe30.herokuapp.com/QIFpost").then(resp => {
-        let results = resp.data;
-        console.log(results);
-        let parsedData1 = results[1];
-        parsedData1[1] = '10000';
-        res.set('Content-Type', 'application/json')
-        res.end(JSON.stringify(results));
-    });
+  const client = new google.auth.JWT(
+    keys.client_email,
+    null,
+    keys.private_key,
+    ['https://www.googleapis.com/auth/spreadsheets']
+  );
+  
+  client.authorize(function(err,tokens){
+    if(err){
+      console.log(err);
+      return;
+    } else {
+      console.log('Successfully connected to Sheet For Create Data File!');
+      gsrun(client);
+    }
+  });
+  
+  async function gsrun(cl){
+    const gsapi = google.sheets({version:'v4', auth: cl});
+    const optSheet1  = {
+      spreadsheetId:'1FMG9gwqwcboqjGctMQ1tQBc5xt6cyL7X5hK2O6Tg70k',
+      range:'Sheet1!A2:B122'
+    }
+    let sheetData1 = await gsapi.spreadsheets.values.get(optSheet1);
+    let sheet1DataArray= sheetData1.data.values;
+    res.json(sheet1DataArray);
+  }
 });
 
 webApp.get("/statistics", (req, res) => {
-  createDataFile();
   res.sendFile(path.join(__dirname, '/statistics.html'));
 });
 
@@ -147,38 +154,5 @@ async function addToSheet(request){
     let resSheet = await gsapi.spreadsheets.values.update(updateOptions);
     //console.log(resSheet);
 // ---------------------------------------------------------------------------
-  }
-}
-
-function createDataFile(){
-  const client = new google.auth.JWT(
-    keys.client_email,
-    null,
-    keys.private_key,
-    ['https://www.googleapis.com/auth/spreadsheets']
-  );
-  
-client.authorize(function(err,tokens){
-  if(err){
-      console.log(err);
-      return;
-  } else {
-      console.log('Successfully connected to Sheet For Create Data File!');
-      gsrun(client);
-    }
-  });
-  
-async function gsrun(cl){
-  const gsapi = google.sheets({version:'v4', auth: cl});
-  const optSheet1  = {
-    spreadsheetId:'1FMG9gwqwcboqjGctMQ1tQBc5xt6cyL7X5hK2O6Tg70k',
-    range:'Sheet1!A2:B122'
-  }
-  let sheetData1 = await gsapi.spreadsheets.values.get(optSheet1);
-  let sheet1DataArray= sheetData1.data.values;
-  //console.log(sheet1DataArray)
-  fs.writeFile('./QIF.json' ,JSON.stringify(sheet1DataArray),function(err) {
-        if(err) throw err;
-  });
   }
 }
