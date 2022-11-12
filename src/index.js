@@ -174,7 +174,7 @@ async function gsrun(cl){
   let sheetData1 = await gsapi.spreadsheets.values.get(optSheet1);
   let sheet1DataArray= sheetData1.data.values;
   //console.log(sheet1DataArray)
-  fs.writeFile('src/QIF.json' ,JSON.stringify(sheet1DataArray),function(err) {
+  fs.writeFile('./QIF.json' ,JSON.stringify(sheet1DataArray),function(err) {
         if(err) throw err;
   });
   }
