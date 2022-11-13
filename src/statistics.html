@@ -29,23 +29,19 @@
       <tbody id="myTable"></tbody>
     </table>
     <script>
+      fetch("https://libchatbot-coe30.herokuapp.com/QIF")
+        .then((res) => res.json())
+        .then((out) => {
+          console.log("Checkout this JSON! ", out);
+          appendData(out);
+        })
+        .catch((err) => {
+          throw err;
+        });
+
       let question = [];
       let quantity = [];
       let dataArry = [];
-      var table = document.getElementById("myTable");
-      let row;
-      function display() {
-        fetch("https://libchatbot-coe30.herokuapp.com/QIF")
-          .then((res) => res.json())
-          .then((out) => {
-            console.log("Checkout this JSON! ", out);
-            appendData(out);
-            //buildTable(dataArry);
-          })
-          .catch((err) => {
-            throw err;
-          });
-      }
       function appendData(data) {
         for (let i = 0; i < data.length; i++) {
           dataArry.push(data[i]);
@@ -57,13 +53,14 @@
             }
           }
         }
+        var table = document.getElementById("myTable");
         for (var i = 0; i < data.length; i++) {
           for (var f = 0; f < 1; f++) {
-            row += `<tr>
+            var row = `<tr>
                     <td>${data[i][0]}</td>
                     <td>${data[i][1]}</td>
                   </tr>`;
-            table.innerHTML = row;
+            table.innerHTML += row;
           }
         }
       }
@@ -89,21 +86,21 @@
         buildTable(dataArry);
       });
 
-      // function buildTable(data) {
-      //   var table = document.getElementById("myTable");
-      //   table.innerHTML = "";
-      //   for (var i = 0; i < data.length; i++) {
-      //     for (var f = 0; f < 1; f++) {
-      //       var row = `<tr>
-      //               <td>${data[i][0]}</td>
-      //               <td>${data[i][1]}</td>
-      //             </tr>`;
-      //       table.innerHTML += row;
-      //     }
-      //   }
-      // }
+      buildTable(dataArry);
 
-      setInterval(display, 1000);
+      function buildTable(data) {
+        var table = document.getElementById("myTable");
+        table.innerHTML = "";
+        for (var i = 0; i < data.length; i++) {
+          for (var f = 0; f < 1; f++) {
+            var row = `<tr>
+                    <td>${data[i][0]}</td>
+                    <td>${data[i][1]}</td>
+                  </tr>`;
+            table.innerHTML += row;
+          }
+        }
+      }
     </script>
   </body>
 </html>
