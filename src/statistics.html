@@ -38,6 +38,7 @@
           .then((out) => {
             console.log("Checkout this JSON! ", out);
             appendData(out);
+            buildTable(dataArry);
           })
           .catch((err) => {
             throw err;
@@ -86,8 +87,6 @@
         $(this).html(text);
         buildTable(dataArry);
       });
-
-      buildTable(dataArry);
 
       function buildTable(data) {
         var table = document.getElementById("myTable");
