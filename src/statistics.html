@@ -33,6 +33,7 @@
       let quantity = [];
       let dataArry = [];
       var table = document.getElementById("myTable");
+      let row;
       function display() {
         fetch("https://libchatbot-coe30.herokuapp.com/QIF")
           .then((res) => res.json())
@@ -58,11 +59,11 @@
         }
         for (var i = 0; i < data.length; i++) {
           for (var f = 0; f < 1; f++) {
-            var row = `<tr>
+            row += `<tr>
                     <td>${data[i][0]}</td>
                     <td>${data[i][1]}</td>
                   </tr>`;
-            table.innerHTML += row;
+            table.innerHTML = row;
           }
         }
       }
