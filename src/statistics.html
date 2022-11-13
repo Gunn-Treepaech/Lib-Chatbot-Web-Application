@@ -29,19 +29,23 @@
       <tbody id="myTable"></tbody>
     </table>
     <script>
-      fetch("https://libchatbot-coe30.herokuapp.com/QIF")
-        .then((res) => res.json())
-        .then((out) => {
-          console.log("Checkout this JSON! ", out);
-          appendData(out);
-        })
-        .catch((err) => {
-          throw err;
-        });
-
+      //https://libchatbot-coe30.herokuapp.com/QIF
       let question = [];
       let quantity = [];
       let dataArry = [];
+      function display() {
+        fetch("https://libchatbot-coe30.herokuapp.com/QIF")
+          .then((res) => res.json())
+          .then((out) => {
+            let table = document.getElementById("myTable");
+            table.innerHTML = "";
+            appendData(out);
+            //buildTable(dataArry);
+          })
+          .catch((err) => {
+            throw err;
+          });
+      }
       function appendData(data) {
         for (let i = 0; i < data.length; i++) {
           dataArry.push(data[i]);
@@ -86,8 +90,6 @@
         buildTable(dataArry);
       });
 
-      buildTable(dataArry);
-
       function buildTable(data) {
         var table = document.getElementById("myTable");
         table.innerHTML = "";
@@ -101,6 +103,8 @@
           }
         }
       }
+
+      setInterval(display, 1000);
     </script>
   </body>
 </html>
