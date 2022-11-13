@@ -29,6 +29,9 @@
       <tbody id="myTable"></tbody>
     </table>
     <script>
+      let question = [];
+      let quantity = [];
+      let dataArry = [];
       function display() {
         fetch("https://libchatbot-coe30.herokuapp.com/QIF")
           .then((res) => res.json())
@@ -40,9 +43,6 @@
             throw err;
           });
 
-        let question = [];
-        let quantity = [];
-        let dataArry = [];
         function appendData(data) {
           for (let i = 0; i < data.length; i++) {
             dataArry.push(data[i]);
@@ -68,42 +68,38 @@
         // console.log(question);
         // console.log(quantity);
         // console.log(dataArry);
-        $("th").on("click", function () {
-          var column = $(this).data("column");
-          var order = $(this).data("order");
-          var text = $(this).html();
-          text = text.substring(0, text.length - 1);
+      }
+      $("th").on("click", function () {
+        var column = $(this).data("column");
+        var order = $(this).data("order");
+        var text = $(this).html();
+        text = text.substring(0, text.length - 1);
 
-          if (order == "desc") {
-            $(this).data("order", "asc");
-            dataArry = dataArry.sort((a, b) =>
-              a[column] > b[column] ? 1 : -1
-            );
-            text += "&#9660";
-          } else {
-            $(this).data("order", "desc");
-            dataArry = dataArry.sort((a, b) =>
-              a[column] < b[column] ? 1 : -1
-            );
-            text += "&#9650";
-          }
-          $(this).html(text);
-          buildTable(dataArry);
-        });
-
+        if (order == "desc") {
+          $(this).data("order", "asc");
+          dataArry = dataArry.sort((a, b) => (a[column] > b[column] ? 1 : -1));
+          text += "&#9660";
+        } else {
+          $(this).data("order", "desc");
+          dataArry = dataArry.sort((a, b) => (a[column] < b[column] ? 1 : -1));
+          text += "&#9650";
+        }
+        $(this).html(text);
         buildTable(dataArry);
+      });
 
-        function buildTable(data) {
-          var table = document.getElementById("myTable");
-          table.innerHTML = "";
-          for (var i = 0; i < data.length; i++) {
-            for (var f = 0; f < 1; f++) {
-              var row = `<tr>
+      buildTable(dataArry);
+
+      function buildTable(data) {
+        var table = document.getElementById("myTable");
+        table.innerHTML = "";
+        for (var i = 0; i < data.length; i++) {
+          for (var f = 0; f < 1; f++) {
+            var row = `<tr>
                     <td>${data[i][0]}</td>
                     <td>${data[i][1]}</td>
                   </tr>`;
-              table.innerHTML += row;
-            }
+            table.innerHTML += row;
           }
         }
       }
