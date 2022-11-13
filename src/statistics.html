@@ -29,7 +29,7 @@
       <tbody id="myTable"></tbody>
     </table>
     <script>
-      setTimeout(function () {
+      function display() {
         fetch("https://libchatbot-coe30.herokuapp.com/QIF")
           .then((res) => res.json())
           .then((out) => {
@@ -106,7 +106,9 @@
             }
           }
         }
-      }, 1000);
+      }
+
+      setInterval(display, 1000);
     </script>
   </body>
 </html>
