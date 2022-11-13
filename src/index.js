@@ -46,7 +46,6 @@ webApp.get("/QIF", (req, res) => {
       console.log(err);
       return;
     } else {
-      console.log('Successfully connected to Sheet For Create Data File!');
       gsrun(client);
     }
   });
