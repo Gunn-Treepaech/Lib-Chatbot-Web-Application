@@ -38,7 +38,7 @@
           .then((out) => {
             console.log("Checkout this JSON! ", out);
             appendData(out);
-            buildTable(dataArry);
+            //buildTable(dataArry);
           })
           .catch((err) => {
             throw err;
@@ -88,19 +88,19 @@
         buildTable(dataArry);
       });
 
-      function buildTable(data) {
-        var table = document.getElementById("myTable");
-        table.innerHTML = "";
-        for (var i = 0; i < data.length; i++) {
-          for (var f = 0; f < 1; f++) {
-            var row = `<tr>
-                    <td>${data[i][0]}</td>
-                    <td>${data[i][1]}</td>
-                  </tr>`;
-            table.innerHTML += row;
-          }
-        }
-      }
+      // function buildTable(data) {
+      //   var table = document.getElementById("myTable");
+      //   table.innerHTML = "";
+      //   for (var i = 0; i < data.length; i++) {
+      //     for (var f = 0; f < 1; f++) {
+      //       var row = `<tr>
+      //               <td>${data[i][0]}</td>
+      //               <td>${data[i][1]}</td>
+      //             </tr>`;
+      //       table.innerHTML += row;
+      //     }
+      //   }
+      // }
 
       setInterval(display, 1000);
     </script>
