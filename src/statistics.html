@@ -42,33 +42,32 @@
           .catch((err) => {
             throw err;
           });
-
-        function appendData(data) {
-          for (let i = 0; i < data.length; i++) {
-            dataArry.push(data[i]);
-            for (let f = 0; f < data[i].length; f++) {
-              if (f % 2 != 0) {
-                quantity.push(parseInt(data[i][f]));
-              } else {
-                question.push(data[i][f]);
-              }
-            }
-          }
-          var table = document.getElementById("myTable");
-          for (var i = 0; i < data.length; i++) {
-            for (var f = 0; f < 1; f++) {
-              var row = `<tr>
-                    <td>${data[i][0]}</td>
-                    <td>${data[i][1]}</td>
-                  </tr>`;
-              table.innerHTML += row;
+      }
+      function appendData(data) {
+        for (let i = 0; i < data.length; i++) {
+          dataArry.push(data[i]);
+          for (let f = 0; f < data[i].length; f++) {
+            if (f % 2 != 0) {
+              quantity.push(parseInt(data[i][f]));
+            } else {
+              question.push(data[i][f]);
             }
           }
         }
-        // console.log(question);
-        // console.log(quantity);
-        // console.log(dataArry);
+        var table = document.getElementById("myTable");
+        for (var i = 0; i < data.length; i++) {
+          for (var f = 0; f < 1; f++) {
+            var row = `<tr>
+                    <td>${data[i][0]}</td>
+                    <td>${data[i][1]}</td>
+                  </tr>`;
+            table.innerHTML += row;
+          }
+        }
       }
+      // console.log(question);
+      // console.log(quantity);
+      // console.log(dataArry);
       $("th").on("click", function () {
         var column = $(this).data("column");
         var order = $(this).data("order");
