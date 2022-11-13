@@ -1,102 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="5">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <meta http-equiv="refresh" content="5" /> -->
     <title>Lib Chat Bot Statistics</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
     <style>
-        th{ 
-          cursor: pointer;
-          color:#fff;
-          }
+      th {
+        cursor: pointer;
+        color: #fff;
+      }
     </style>
-</head>
-<body>
-  <table class="table table-striped">
-    <tr  class="bg-info">
+  </head>
+  <body>
+    <table class="table table-striped">
+      <tr class="bg-info">
         <th data-colname="question" data-order="desc">Question</th>
         <th data-colname="quantity" data-order="desc">Quantity</th>
-    </tr>
-    <tbody id="myTable">
-    </tbody>
-</table>
-  <script>
-    fetch("https://libchatbot-coe30.herokuapp.com/QIF")
-    .then(res => res.json())
-    .then((out) => {
-      console.log('Checkout this JSON! ', out);
-      appendData(out)
-    })
-    .catch(err => { throw err });
+      </tr>
+      <tbody id="myTable"></tbody>
+    </table>
+    <script>
+      setTimeout(function () {
+        fetch("https://libchatbot-coe30.herokuapp.com/QIF")
+          .then((res) => res.json())
+          .then((out) => {
+            console.log("Checkout this JSON! ", out);
+            appendData(out);
+          })
+          .catch((err) => {
+            throw err;
+          });
 
-    let question = [];
-    let quantity = [];
-    let dataArry = []
-    function appendData(data) {
-      for (let i = 0; i < data.length; i++) {
-        dataArry.push(data[i]);
-          for (let f = 0; f < data[i].length; f++) {
-            if(f % 2 != 0) {
-              quantity.push(parseInt(data[i][f]));
+        let question = [];
+        let quantity = [];
+        let dataArry = [];
+        function appendData(data) {
+          for (let i = 0; i < data.length; i++) {
+            dataArry.push(data[i]);
+            for (let f = 0; f < data[i].length; f++) {
+              if (f % 2 != 0) {
+                quantity.push(parseInt(data[i][f]));
               } else {
-              question.push(data[i][f]);
+                question.push(data[i][f]);
               }
+            }
           }
-      }
-      var table = document.getElementById('myTable')
-        for (var i = 0; i < data.length; i++){
-          for (var f = 0; f < 1; f++){
-            var row = `<tr>
+          var table = document.getElementById("myTable");
+          for (var i = 0; i < data.length; i++) {
+            for (var f = 0; f < 1; f++) {
+              var row = `<tr>
                     <td>${data[i][0]}</td>
                     <td>${data[i][1]}</td>
-                  </tr>`
-            table.innerHTML += row
+                  </tr>`;
+              table.innerHTML += row;
+            }
+          }
         }
-      }
-    }
-      // console.log(question);
-      // console.log(quantity);
-      // console.log(dataArry);
-    $('th').on('click', function(){
-      var column = $(this).data('column')
-      var order = $(this).data('order')
-      var text = $(this).html()
-      text = text.substring(0, text.length - 1)
+        // console.log(question);
+        // console.log(quantity);
+        // console.log(dataArry);
+        $("th").on("click", function () {
+          var column = $(this).data("column");
+          var order = $(this).data("order");
+          var text = $(this).html();
+          text = text.substring(0, text.length - 1);
 
-      if(order == 'desc'){
-        $(this).data('order', "asc")
-        dataArry = dataArry.sort((a,b) => a[column] > b[column] ? 1 : -1)
-        text += '&#9660'
+          if (order == "desc") {
+            $(this).data("order", "asc");
+            dataArry = dataArry.sort((a, b) =>
+              a[column] > b[column] ? 1 : -1
+            );
+            text += "&#9660";
+          } else {
+            $(this).data("order", "desc");
+            dataArry = dataArry.sort((a, b) =>
+              a[column] < b[column] ? 1 : -1
+            );
+            text += "&#9650";
+          }
+          $(this).html(text);
+          buildTable(dataArry);
+        });
 
-      }else{
-        $(this).data('order', "desc")
-        dataArry = dataArry.sort((a,b) => a[column] < b[column] ? 1 : -1)
-        text += '&#9650'
+        buildTable(dataArry);
 
-      }
-      $(this).html(text)
-      buildTable(dataArry)
-    })
-
-    buildTable(dataArry)
-
-    function buildTable(data){
-      var table = document.getElementById('myTable')
-      table.innerHTML = ''
-      for (var i = 0; i < data.length; i++){
-          for (var f = 0; f < 1; f++){
-            var row = `<tr>
+        function buildTable(data) {
+          var table = document.getElementById("myTable");
+          table.innerHTML = "";
+          for (var i = 0; i < data.length; i++) {
+            for (var f = 0; f < 1; f++) {
+              var row = `<tr>
                     <td>${data[i][0]}</td>
                     <td>${data[i][1]}</td>
-                  </tr>`
-        table.innerHTML += row
-      }
-    }
-  }
-  </script>
-</body>
+                  </tr>`;
+              table.innerHTML += row;
+            }
+          }
+        }
+      }, 1000);
+    </script>
+  </body>
 </html>
